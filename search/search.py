@@ -239,7 +239,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 if action[0] not in visited:
                     #visited.append(current_state)
                     path_t=action[1]
-                    Queue.push((action[0],path+[path_t]),problem.getCostOfActions(path+[path_t])+heuristicgit (action[0],problem))
+                    Queue.push((action[0],path+[path_t]),problem.getCostOfActions(path+[path_t])+heuristic(action[0],problem))
         
     
     util.raiseNotDefined()

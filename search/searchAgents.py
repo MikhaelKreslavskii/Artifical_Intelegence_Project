@@ -292,16 +292,15 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
-        self.right=right
-        self.top=top
-       
-
+        print(self.corners)
+       # print(self.startingPosition)
     def getStartState(self):
         """
         Returns the start state (in your state space, not the full Pacman state
         space)
         """
-        "*** YOUR CODE HERE ***"
+       # print(self.startingPosition)
+        return self.startingPosition
         util.raiseNotDefined()
 
     def isGoalState(self, state):
@@ -309,6 +308,12 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
+        if state not in self.corners:
+            print("It is not goal state")
+            return False
+        q
+        
+        print(state)
         util.raiseNotDefined()
 
     def getSuccessors(self, state):
@@ -365,6 +370,8 @@ def cornersHeuristic(state, problem):
     """
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
+    #print(corners)
+    #print(walls)
 
     "*** YOUR CODE HERE ***"
     return 0 # Default to trivial solution
