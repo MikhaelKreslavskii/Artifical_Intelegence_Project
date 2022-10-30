@@ -34,6 +34,7 @@ description for details.
 Good luck and happy searching!
 """
 
+from sre_parse import State
 from turtle import right
 from game import Directions
 from game import Agent
@@ -291,16 +292,32 @@ class CornersProblem(search.SearchProblem):
         self._expanded = 0 # DO NOT CHANGE; Number of search nodes expanded
         # Please add any code here which you would like to use
         # in initializing the problem
+        #print(startingGameState.getPacmanPosition())
         "*** YOUR CODE HERE ***"
-        print(self.corners)
+        print(type(startingGameState))
+        start=self.startingPosition
+        visited=[False,False,False,False]
+        if start==self.corners[0]:
+            visited[0]=True
+        if start == self.corners[1]:
+            visited[1]=True
+        if start== self.corners[2]:
+            visited[2]=True
+                
+        if start == self.corners[3]:
+            visited[3]=True    
+            
+        self.startingState=(start, tuple(visited))  
        # print(self.startingPosition)
+        #return self.startingState
     def getStartState(self):
         """
         Returns the start state (in your state space, not the full Pacman state
         space)
         """
+        
        # print(self.startingPosition)
-        return self.startingPosition
+        return self.startingState
         util.raiseNotDefined()
 
     def isGoalState(self, state):
@@ -308,12 +325,15 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        if state not in self.corners:
-            print("It is not goal state")
-            return False
-        q
+        #print(state)
+        visited=state[1]
+        print(visited)
+        for i in range(len(visited)):
+            if visited[i]==False:
+                return False
         
-        print(state)
+        
+        return True
         util.raiseNotDefined()
 
     def getSuccessors(self, state):
@@ -326,17 +346,26 @@ class CornersProblem(search.SearchProblem):
             state, 'action' is the action required to get there, and 'stepCost'
             is the incremental cost of expanding to that successor
         """
-
+        print("Helloooo")
         successors = []
+        print(state[0])
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
-            #   x,y = currentPosition
-            #   dx, dy = Actions.directionToVector(action)
-            #   nextx, nexty = int(x + dx), int(y + dy)
-            #   hitsWall = self.walls[nextx][nexty]
-
-            "*** YOUR CODE HERE ***"
+                print("Action is ",action)
+                x,y = self.startingPosition
+                dx, dy = Actions.directionToVector(action)
+                nextx, nexty = int(x + dx), int(y + dy)
+                hitsWall = self.walls[nextx][nexty]
+                if not hitsWall :
+                    x=x+dx
+                    y=y+dy
+                    
+                        
+                    self.startingPosition=x,y
+                    successors.append(((x,y),action,1))
+                    
+                "*** YOUR CODE HERE ***"
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
