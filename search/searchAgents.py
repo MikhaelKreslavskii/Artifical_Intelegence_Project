@@ -295,6 +295,7 @@ class CornersProblem(search.SearchProblem):
         #print(startingGameState.getPacmanPosition())
         "*** YOUR CODE HERE ***"
         print(type(startingGameState))
+        '''
         start=self.startingPosition
         visited=[False,False,False,False]
         if start==self.corners[0]:
@@ -308,15 +309,16 @@ class CornersProblem(search.SearchProblem):
             visited[3]=True    
             
         self.startingState=(start, tuple(visited))  
-       # print(self.startingPosition)
+        '''# print(self.startingPosition)
         #return self.startingState
     def getStartState(self):
         """
         Returns the start state (in your state space, not the full Pacman state
         space)
         """
-        
-       # print(self.startingPosition)
+        visited=[False,False,False,False]
+        self.startingState=(self.startingPosition,visited)
+        print(self.startingState)
         return self.startingState
         util.raiseNotDefined()
 
@@ -327,13 +329,11 @@ class CornersProblem(search.SearchProblem):
         "*** YOUR CODE HERE ***"
         #print(state)
         visited=state[1]
-        print(visited)
-        for i in range(len(visited)):
-            if visited[i]==False:
-                return False
-        
-        
-        return True
+        #print(visited)
+        if (visited[0] and visited[1] and visited[2] and visited[3]):
+            return True
+        else:
+            return False
         util.raiseNotDefined()
 
     def getSuccessors(self, state):
@@ -346,28 +346,38 @@ class CornersProblem(search.SearchProblem):
             state, 'action' is the action required to get there, and 'stepCost'
             is the incremental cost of expanding to that successor
         """
-        print("Helloooo")
+        #print("Helloooo")
         successors = []
-        print(state[0])
+       # print(state[0])
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
                 print("Action is ",action)
-                x,y = self.startingPosition
+                x,y = state[0]
                 dx, dy = Actions.directionToVector(action)
                 nextx, nexty = int(x + dx), int(y + dy)
                 hitsWall = self.walls[nextx][nexty]
+                
                 if not hitsWall :
-                    x=x+dx
-                    y=y+dy
-                    
+                    visited=list(state[1])
+                    print(visited)
+                    if (nextx,nexty)==self.corners[0]:
+                        visited[0]=True
+                    if (nextx,nexty)==self.corners[1]:
+                        visited[1]=True
                         
-                    self.startingPosition=x,y
-                    successors.append(((x,y),action,1))
+                    if (nextx,nexty)==self.corners[2]:
+                        visited[2]=True
+                        
+                    if (nextx,nexty)==self.corners[3]:
+                        visited[3]=True
+                    
+                    successors.append((((nextx,nexty),tuple(visited)),action,1))
                     
                 "*** YOUR CODE HERE ***"
 
         self._expanded += 1 # DO NOT CHANGE
+        print(successors)
         return successors
 
     def getCostOfActions(self, actions):
@@ -399,6 +409,16 @@ def cornersHeuristic(state, problem):
     """
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
+    current_position = state[0]
+    print("My current position ", current_position)
+    visited=state[1]
+    heuristic = manhattanHeuristic(current_position,corners[0])
+    unvisited=[]
+    for i in range(len(visited)):
+        if visited[i]==False:
+            unvisited.append(corners[i])
+    
+    return heuristic
     #print(corners)
     #print(walls)
 
