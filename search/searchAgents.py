@@ -419,15 +419,21 @@ def cornersHeuristic(state, problem):
     for i in range(len(corners)):
         if visited[i]==False:
             unvisited.append(corners[i])
+    heuristic=0
     #count minimal manhattan distanse between goals and choose minimal as heuristic
-    if len(unvisited)>0:
+    while (len(unvisited)>0):
         min_distance=util.manhattanDistance(current_position,unvisited[0])
         min_distance_index=0
         for i in range(len(unvisited)):
             if util.manhattanDistance(current_position,unvisited[i])<min_distance:
                 min_distance = util.manhattanDistance(current_position,unvisited[i])
+                min_distance_index=i;
+        heuristic+=min_distance
+        current_position=unvisited[min_distance_index]
+        unvisited.pop(min_distance_index)
+        
                 
-    return min_distance
+    return heuristic
    
     # for i in range( len(corners)):
     #     if manhattanHeuristic(current_position,corners[i])<min_distance:
