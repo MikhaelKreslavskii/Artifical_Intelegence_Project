@@ -428,9 +428,10 @@ def cornersHeuristic(state, problem):
             if util.manhattanDistance(current_position,unvisited[i])<min_distance:
                 min_distance = util.manhattanDistance(current_position,unvisited[i])
                 min_distance_index=i;
-        heuristic+=min_distance
-        current_position=unvisited[min_distance_index]
-        unvisited.pop(min_distance_index)
+        
+        heuristic+=min_distance #calculate heuristic for the closest corner
+        current_position=unvisited[min_distance_index] #our current position in the corner
+        unvisited.pop(min_distance_index) # delete visited corner from unvisited
         
                 
     return heuristic
