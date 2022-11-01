@@ -318,7 +318,7 @@ class CornersProblem(search.SearchProblem):
         """
         visited=[False,False,False,False]
         self.startingState=(self.startingPosition,visited)
-        print(self.startingState)
+        #print(self.startingState)
         return self.startingState
         util.raiseNotDefined()
 
@@ -352,7 +352,7 @@ class CornersProblem(search.SearchProblem):
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
-                print("Action is ",action)
+                #print("Action is ",action)
                 x,y = state[0]
                 dx, dy = Actions.directionToVector(action)
                 nextx, nexty = int(x + dx), int(y + dy)
@@ -377,7 +377,7 @@ class CornersProblem(search.SearchProblem):
                 "*** YOUR CODE HERE ***"
 
         self._expanded += 1 # DO NOT CHANGE
-        print(successors)
+        #print(successors)
         return successors
 
     def getCostOfActions(self, actions):
