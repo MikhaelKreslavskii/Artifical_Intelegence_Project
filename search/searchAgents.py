@@ -540,6 +540,38 @@ def foodHeuristic(state, problem):
     problem.heuristicInfo['wallCount']
     """
     position, foodGrid = state
+    unvisited_food = foodGrid.asList()
+    if not unvisited_food:
+        return 0
+    low = unvisited_food[0]
+    if len(unvisited_food) == 1:
+        return util.manhattanDistance(position,low)
+    
+    
+    distance = 0
+    closest_visited_food = []
+    farest_visited_food = []
+    farest = unvisited_food[0]
+    min_distance = 0
+    #searching the closest one
+    for dot in unvisited_food:
+        distance = util.manhattanDistance(position,dot)
+        closest_visited_food.append(distance)
+        min_distance = min(closest_visited_food)
+    min_distance_index = closest_visited_food.index(min_distance)
+    closest = unvisited_food[min_distance_index]
+    #searching the farest one
+    for dot in unvisited_food:
+        distance = util.manhattanDistance(closest,dot)
+        farest_visited_food.append(distance)
+        farest = max(farest_visited_food)
+    max_distance_index = farest_visited_food.index(farest)
+    farest = unvisited_food[max_distance_index]
+    
+    #estimate our heuristic by summing distances between the closest and farest and the position and closest
+    return util.manhattanDistance(closest,farest) + util.manhattanDistance(position,closest)
+
+        
     "*** YOUR CODE HERE ***"
     return 0
 
