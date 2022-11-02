@@ -318,7 +318,7 @@ class CornersProblem(search.SearchProblem):
         """
         visited=[False,False,False,False]
         self.startingState=(self.startingPosition,visited)
-        print(self.startingState)
+        #print(self.startingState)
         return self.startingState
         util.raiseNotDefined()
 
@@ -352,7 +352,7 @@ class CornersProblem(search.SearchProblem):
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
-                print("Action is ",action)
+                #print("Action is ",action)
                 x,y = state[0]
                 dx, dy = Actions.directionToVector(action)
                 nextx, nexty = int(x + dx), int(y + dy)
@@ -377,7 +377,7 @@ class CornersProblem(search.SearchProblem):
                 "*** YOUR CODE HERE ***"
 
         self._expanded += 1 # DO NOT CHANGE
-        print(successors)
+        #print(successors)
         return successors
 
     def getCostOfActions(self, actions):
@@ -407,9 +407,19 @@ def cornersHeuristic(state, problem):
     shortest path from the state to a goal of the problem; i.e.  it should be
     admissible (as well as consistent).
     """
+    
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-   
+    current_position = state[0]
+    print("My current position ", current_position)
+    visited=state[1]
+    heuristic = manhattanHeuristic(current_position,corners[0])
+    unvisited=[]
+    for i in range(len(visited)):
+        if visited[i]==False:
+            unvisited.append(corners[i])
+    
+    return heuristic
     #print(corners)
     #print(walls)
 
