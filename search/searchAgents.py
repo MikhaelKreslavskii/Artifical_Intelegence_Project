@@ -411,15 +411,38 @@ def cornersHeuristic(state, problem):
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
     current_position = state[0]
-    print("My current position ", current_position)
+    #print("My current position ", current_position)
     visited=state[1]
-    heuristic = manhattanHeuristic(current_position,corners[0])
-    unvisited=[]
-    for i in range(len(visited)):
+    unvisited = []
+    min_distance=0
+    #check nodes that are unvisited
+    for i in range(len(corners)):
         if visited[i]==False:
             unvisited.append(corners[i])
-    
+    heuristic=0
+    #count minimal manhattan distanse between goals and choose minimal as heuristic
+    while (len(unvisited)>0):
+        min_distance=util.manhattanDistance(current_position,unvisited[0])
+        min_distance_index=0
+        for i in range(len(unvisited)):
+            if util.manhattanDistance(current_position,unvisited[i])<min_distance:
+                min_distance = util.manhattanDistance(current_position,unvisited[i])
+                min_distance_index=i;
+        
+        heuristic+=min_distance #calculate heuristic for the closest corner
+        current_position=unvisited[min_distance_index] #our current position in the corner
+        unvisited.pop(min_distance_index) # delete visited corner from unvisited
+        
+                
     return heuristic
+   
+    # for i in range( len(corners)):
+    #     if manhattanHeuristic(current_position,corners[i])<min_distance:
+    #         min_distance=corners[i]
+    #         min_index=i
+    # print(min_distance)
+    # print(min_index)
+   # return heuristic
     #print(corners)
     #print(walls)
 
